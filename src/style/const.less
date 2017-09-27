@@ -1,0 +1,33 @@
+@gray: #eee;
+@link: #333;
+@white: #fff;
+@word: #333;
+.border-radius(@a, @b) when(@a=0) {
+    border-radius: @b;
+    -webkit-border-radius: @b;
+    -moz-border-radius: @b
+}
+
+.border-radius(@a, @b) when(@a=1) {
+    border-top-left-radius: @b;
+    -webkit-border-top-left-radius: @b;
+    -moz-border-top-left-radius: @b;
+}
+
+.border-radius(@a, @b) when(@a=2) {
+    border-top-right-radius: @b;
+    -webkit-border-top-right-radius: @b;
+    -moz-border-top-right-radius: @b;
+}
+
+.border-radius(@a, @b) when(@a=3) {
+    border-bottom-right-radius: @b;
+    -webkit-border-bottom-right-radius: @b;
+    -moz-border-bottom-right-radius: @b
+}
+
+.border-radius(@a, @b) when(@a=4) {
+    border-bottom-left-radius: @b;
+    -webkit-border-bottom-left-radius: @b;
+    -moz-border-bottom-left-radius: @b
+}
