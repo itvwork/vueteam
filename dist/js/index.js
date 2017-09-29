@@ -465,7 +465,6 @@ exports.default = function (Vue, opt) {
                         resolve(JSON.parse(xmlhttp.responseText));
                     }
                 };
-
                 xmlhttp.open("POST", url, true);
                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
                 xmlhttp.setRequestHeader("Accept", "*/*");
