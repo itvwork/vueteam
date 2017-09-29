@@ -145,7 +145,7 @@
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -375,6 +375,118 @@ module.exports = g;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+exports.default = function (Vue, opt) {
+    Vue.prototype.$ajax = {
+        post: function post(url, context) {
+            function argUrl(obj) {
+                var result = [];
+                function argFormat(obj, name) {
+                    if ((typeof obj === "undefined" ? "undefined" : _typeof(obj)) === "object") {
+                        for (var i in obj) {
+                            if (_typeof(obj[i]) === "object") {
+                                name ? argFormat(obj[i], name + '[' + i + ']') : argFormat(obj[i], i);
+                            } else {
+                                if (name) {
+                                    result.push(name + "[" + i + "]" + '=' + encodeURIComponent(obj[i]));
+                                } else {
+                                    result.push(i + '=' + encodeURIComponent(obj[i]));
+                                }
+                            }
+                        }
+                        return result.join('&');
+                    } else {
+                        result += obj;
+                        return result;
+                    };
+                }
+                return argFormat(obj);
+            };
+            function xhr2(obj) {
+                var past = new FormData();
+                function argFormat(obj, name) {
+                    if ((typeof obj === "undefined" ? "undefined" : _typeof(obj)) === "object") {
+                        for (var i in obj) {
+                            if (_typeof(obj[i]) === "object") {
+
+                                if (obj[i].lastModified) {
+                                    past.append(name, obj[i]);
+                                } else {
+                                    name ? argFormat(obj[i], name + '[' + i + ']') : argFormat(obj[i], i);
+                                }
+                            } else {
+                                if (name) {
+                                    past.append(name + "[" + i + "]", obj[i]);
+                                } else {
+                                    past.append(i, obj[i]);
+                                }
+                            }
+                        }
+                        return past;
+                    } else {
+
+                        return obj;
+                    };
+                }
+                return argFormat(obj);
+            }
+
+            return new Promise(function (resolve, reject) {
+                var xmlhttp = new XMLHttpRequest();
+                if (typeof FormData !== 'undefined') {
+                    var urldata = xhr2(context.data);
+                    xmlhttp.timeout = context.timeout ? context.timeout : 10000;
+                    xmlhttp.addEventListener('progress', function (e) {
+
+                        context.progress ? context.progress(e) : '';
+                    });
+                    xmlhttp.addEventListener('load', function (e) {
+
+                        context.load ? context.load(e) : '';
+                    });
+                    xmlhttp.addEventListener('error', function (e) {
+
+                        context.error ? context.error(e) : '';
+                    });
+                    xmlhttp.addEventListener('loadstart', function (e) {
+                        context.loadstart ? context.loadstart(e) : '';
+                    });
+                    xmlhttp.addEventListener('loadend', function (e) {
+
+                        context.loadstart ? context.loadstart(e) : '';
+                    });
+                } else {
+                    var urldata = argUrl(context.data);
+                }
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        resolve(JSON.parse(xmlhttp.responseText));
+                    }
+                };
+
+                xmlhttp.open("POST", url, true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+                xmlhttp.setRequestHeader("Accept", "*/*");
+                // xmlhttp.setRequestHeader("Accept-Language", "zh-CN,zh;q=0.8");
+                xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); //设置请求头信息
+                xmlhttp.send(urldata);
+            });
+        }
+    };
+};
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.default = [{
     name: 'home', //路由的名称，这个值是唯一 ，起名的好处就是在跳转的时候放便
     meta: { //给路传递一些参数
@@ -383,7 +495,7 @@ exports.default = [{
     path: '', //路径这里填写路由的路径，即域名后面的url  不能带？号的那一部份
     component: function component(resolve) {
         //按需加载，这样写的好处就是需要的时候才会加载这个页面的代码，至于其它写法请上官网查看，webpack会分包编译从（dist/js的0.js,1.js……）看出来
-        __webpack_require__.e/* require */(2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(12)]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+        __webpack_require__.e/* require */(2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(13)]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
     }
 
 }, {
@@ -393,7 +505,7 @@ exports.default = [{
     },
     path: '/login',
     component: function component(resolve) {
-        __webpack_require__.e/* require */(1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(13)]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+        __webpack_require__.e/* require */(1).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(14)]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
     }
 
 }, {
@@ -401,32 +513,32 @@ exports.default = [{
     path: '/case',
 
     component: function component(resolve) {
-        __webpack_require__.e/* require */(3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(11)]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+        __webpack_require__.e/* require */(3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(12)]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
     }
 }, {
     name: 'news',
     path: '/news',
     component: function component(resolve) {
-        __webpack_require__.e/* require */(0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(7)]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+        __webpack_require__.e/* require */(0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(8)]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
     }
 }, {
     name: 'newdetail',
     path: '/news/:id', // 带参数路由的写法  加: 后面是参数名, 可带多个
     component: function component(resolve) {
-        __webpack_require__.e/* require */(0/* duplicate */).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(7)]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+        __webpack_require__.e/* require */(0/* duplicate */).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(8)]; (resolve.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
     }
 }];
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(6)(
+var Component = __webpack_require__(7)(
   /* script */
   null,
   /* template */
-  __webpack_require__(10),
+  __webpack_require__(11),
   /* styles */
   null,
   /* scopeId */
@@ -458,7 +570,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2972,7 +3084,7 @@ if (inBrowser && window.Vue) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10526,7 +10638,7 @@ setTimeout(function () {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0), __webpack_require__(1)))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -10623,32 +10735,37 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 7 */,
-/* 8 */
+/* 8 */,
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _vue = __webpack_require__(5);
+var _vue = __webpack_require__(6);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _vueRouter = __webpack_require__(4);
+var _vueRouter = __webpack_require__(5);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _router = __webpack_require__(2);
+var _router = __webpack_require__(3);
 
 var _router2 = _interopRequireDefault(_router);
 
-var _app = __webpack_require__(3);
+var _app = __webpack_require__(4);
 
 var _app2 = _interopRequireDefault(_app);
+
+var _http = __webpack_require__(2);
+
+var _http2 = _interopRequireDefault(_http);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue2.default.use(_vueRouter2.default);
+_vue2.default.use(_http2.default);
 var router = new _vueRouter2.default({
     // mode: 'history',
     routes: _router2.default
@@ -10663,8 +10780,8 @@ new _vue2.default({
 });
 
 /***/ }),
-/* 9 */,
-/* 10 */
+/* 10 */,
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

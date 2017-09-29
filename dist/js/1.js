@@ -1,14 +1,14 @@
 webpackJsonp([1],{
 
-/***/ 13:
+/***/ 14:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(6)(
+var Component = __webpack_require__(7)(
   /* script */
-  __webpack_require__(15),
+  __webpack_require__(16),
   /* template */
-  __webpack_require__(19),
+  __webpack_require__(20),
   /* styles */
   null,
   /* scopeId */
@@ -41,7 +41,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 15:
+/***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73,14 +73,21 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
 
 exports.default = {
     data: function data() {
         return {
             sub: {
-                admin: 'admin',
-                pwd: 'admin'
+                name: 'useadmin',
+                pwd: '123456',
+                contents: [1, 2, 3, 4],
+                id: {
+                    id: 10,
+                    user: name
+                }
             },
+
             stateWord: '登录',
             err_msg: '登录失败',
             state: 0
@@ -100,19 +107,30 @@ exports.default = {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
+                                _context.next = 2;
+                                return _this.$ajax.post('http://192.168.26.86/3dplay/public/admin/login', {
+                                    data: _this.sub
+                                });
+
+                            case 2:
                             case 'end':
                                 return _context.stop();
                         }
                     }
                 }, _callee, _this);
             }))();
+        },
+        file: function file(e) {
+            this.sub.img = e[0];
+
+            console.log(e[0]);
         }
     }
 };
 
 /***/ }),
 
-/***/ 19:
+/***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -130,8 +148,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.sub.admin),
-      expression: "sub.admin"
+      value: (_vm.sub.admin_name),
+      expression: "sub.admin_name"
     }],
     staticClass: "input-login",
     attrs: {
@@ -139,12 +157,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "请输入登录帐号"
     },
     domProps: {
-      "value": (_vm.sub.admin)
+      "value": (_vm.sub.admin_name)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.sub.admin = $event.target.value
+        _vm.sub.admin_name = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -153,8 +171,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.sub.pwd),
-      expression: "sub.pwd"
+      value: (_vm.sub.admin_password),
+      expression: "sub.admin_password"
     }],
     staticClass: "input-login",
     attrs: {
@@ -162,12 +180,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "请输入登录密码"
     },
     domProps: {
-      "value": (_vm.sub.pwd)
+      "value": (_vm.sub.admin_password)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.sub.pwd = $event.target.value
+        _vm.sub.admin_password = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item-login"
+  }, [_c('input', {
+    attrs: {
+      "type": "file"
+    },
+    on: {
+      "change": function($event) {
+        _vm.file($event.target.files)
       }
     }
   })])]), _vm._v(" "), _c('div', {
